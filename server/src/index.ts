@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import connectDB from './config/connectDB.js';
 import dotenv from 'dotenv';
+import router from './route/index.js';
 
 dotenv.config();
 const app = express();
@@ -19,3 +20,6 @@ async function startServer() {
 startServer().catch((error) => {
   console.error('Error starting server:', error);
 });
+
+
+app.use('/api', router);
