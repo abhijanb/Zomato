@@ -3,6 +3,7 @@ import cors from 'cors';
 import connectDB from './config/connectDB.js';
 import dotenv from 'dotenv';
 import router from './route/index.js';
+import errorHandler from './utils/errorHandler.js';
 
 dotenv.config();
 const app = express();
@@ -23,3 +24,4 @@ startServer().catch((error) => {
 
 
 app.use('/api', router);
+app.use(errorHandler);
