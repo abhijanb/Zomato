@@ -1,7 +1,7 @@
 import type mongoose from "mongoose";
 
-export interface IResturant extends mongoose.Document {
-    resturantName: string;
+export interface IRestaurant extends mongoose.Document {
+    restaurantName: string;
     email: string;
     password: string;
     description: string;

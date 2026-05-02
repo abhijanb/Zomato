@@ -21,7 +21,7 @@ export const addressSchema = z.object({
 });
 
 export const restaurantRegisterSchema = z.object({
-    resturantName: z
+    restaurantName: z
         .string()
         .min(2, { message: "Restaurant name must be at least 2 characters" }),
 
@@ -48,7 +48,7 @@ export const restaurantRegisterSchema = z.object({
     address: addressSchema,
 });
 
-export const loginResturant = z.object({
+export const loginRestaurant = z.object({
     email: z
         .string()
         .email({ message: "Invalid email format" }),
@@ -56,7 +56,7 @@ export const loginResturant = z.object({
     password: z
         .string()
         .min(6, { message: "Password must be at least 6 characters" }),
-    rememberMe: z.boolean().default(false),
+    rememberMe: z.boolean(),
 });
-export type RegisterResturantInput = z.infer<typeof restaurantRegisterSchema>;
-export type LoginResturantInput = z.infer<typeof loginResturant>;
+export type RegisterRestaurantInput = z.infer<typeof restaurantRegisterSchema>;
+export type LoginRestaurantInput = z.infer<typeof loginRestaurant>;

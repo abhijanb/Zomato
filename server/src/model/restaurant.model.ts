@@ -1,10 +1,10 @@
 import bcrypt from "bcryptjs";
-import type { IResturant } from "../types/resturant.type.js";
+import type { IRestaurant } from "../types/restaurant.type.js";
 import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
 
-const resturantSchema = new mongoose.Schema<IResturant>({
-    resturantName: {
+const restaurantSchema = new mongoose.Schema<IRestaurant>({
+    restaurantName: {
         type: String,
         required: true,
     },
@@ -66,9 +66,9 @@ const resturantSchema = new mongoose.Schema<IResturant>({
     },
 }, { timestamps: true });
 
-resturantSchema.index({ "address": "2dsphere" });
+restaurantSchema.index({ "address": "2dsphere" });
 
-resturantSchema.pre("save", async function (next) {
+restaurantSchema.pre("save", async function (next) {
     if (this.isModified("password")) {
         // Hash the password before saving
         const salt = await bcrypt.genSalt(10);
@@ -77,11 +77,11 @@ resturantSchema.pre("save", async function (next) {
     next;
 });
 
-resturantSchema.methods.comparePassword = async function (candidatePassword: string) {
+restaurantSchema.methods.comparePassword = async function (candidatePassword: string) {
     return await bcrypt.compare(candidatePassword, this.password);
 };
 
-resturantSchema.methods.generateAccessToken = function () {
+restaurantSchema.methods.generateAccessToken = function () {
     const payload = {
         id: this._id,
         email: this.email,
@@ -91,7 +91,7 @@ resturantSchema.methods.generateAccessToken = function () {
     return accessToken;
 }
 
-resturantSchema.methods.generateRefreshToken = function () {
+restaurantSchema.methods.generateRefreshToken = function () {
     const payload = {
         id: this._id,
         email: this.email,
@@ -100,6 +100,6 @@ resturantSchema.methods.generateRefreshToken = function () {
     return refreshToken;
 }
 
-const Resturant = mongoose.model("Resturant", resturantSchema);
+const Restaurant = mongoose.model("Restaurant", restaurantSchema);
 
-export default Resturant;
+export default Restaurant;

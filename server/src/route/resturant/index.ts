@@ -1,5 +1,5 @@
 import expresss from 'express';
 import authRouter from './auth.route.js';
-const resturantRouter:expresss.Router = expresss.Router();
-resturantRouter.use('/auth',authRouter)
-export default resturantRouter;
+const restaurantRouter:expresss.Router = expresss.Router();
+restaurantRouter.use('/auth',authRouter)
+export default restaurantRouter;

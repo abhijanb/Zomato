@@ -9,9 +9,27 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(cors());
+const allowedOrigins = (process.env.CLIENT_URL ?? "")
+  .split(",")
+  .map((s) => s.trim())
+  .filter(Boolean);
+
+app.use(cors({
+  origin(origin, callback) {
+    // allow non-browser tools (no Origin header)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.length === 0) return callback(null, true);
+    if (allowedOrigins.includes(origin)) return callback(null, true);
+    return callback(new Error(`CORS blocked origin: ${origin}`));
+  },
+  credentials: true,
+}));
+
+// 3. Body parser
 app.use(express.json());
 
+app.use('/api', router);
+app.use(errorHandler);
 async function startServer() {
   await connectDB();
   app.listen(PORT, () => {
@@ -22,6 +40,3 @@ startServer().catch((error) => {
   console.error('Error starting server:', error);
 });
 
-
-app.use('/api', router);
-app.use(errorHandler);

@@ -7,7 +7,11 @@ const errorHandler = (err: ApiError, req: Request, res: Response, next: NextFunc
         console.error("Error occurred:", err);
         if (err instanceof ValidationError) {
             return res.status(400).json(err.error);
-        } else {
+        }
+        if (err instanceof Error) {
+            return res.status(500).json({ message: err.message });
+        }
+        else {
             // why err.message is showing type error is not clear, so we are sending the whole error object for debugging
             res.status(500).json({ message: "Internal server error", err: err });
         }
